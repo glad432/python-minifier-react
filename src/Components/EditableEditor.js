@@ -1,7 +1,7 @@
 import React from 'react';
 import Editor from '@monaco-editor/react';
 
-const EditableEditor = ({ content, onContentChange }) => {
+const EditableEditor = ({ content, onContentChange, darkMode }) => {
   const linesCount = content.split('\n').length;
   const charactersCount = content.length;
 
@@ -11,7 +11,7 @@ const EditableEditor = ({ content, onContentChange }) => {
         height="290px"
         width="auto"
         defaultLanguage="python"
-        theme="vs-dark"
+        theme={darkMode ? 'vs-dark' : 'vs-light'}
         defaultValue=""
         value={content}
         options={{

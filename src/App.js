@@ -1,19 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import EditableEditor from './Components/EditableEditor';
 import ReadonlyEditor from './Components/ReadonlyEditor';
 
 function App() {
   const [content, setContent] = useState('');
+  const [darkMode, setDarkMode] = useState(
+    localStorage.getItem('darkMode') === 'true' ? true : false
+  );
+
+  useEffect(() => {
+    localStorage.setItem('darkMode', darkMode);
+  }, [darkMode]);
 
   const handleContentChange = (value, event) => {
     setContent(value);
   };
 
+  const toggleTheme = () => {
+    setDarkMode(prevMode => !prevMode);
+  };
+
   return (
-    <div className="min-h-screen flex justify-center items-center bg-gray-100">
+    <div className={`min-h-screen flex justify-center items-center ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-black'}`}>
       <div className="max-w-[50rem] w-full p-8 rounded-lg shadow-lg">
-        <EditableEditor content={content} onContentChange={handleContentChange} />
-        <ReadonlyEditor content={content} />
+        <div className="flex justify-end">
+          <button onClick={toggleTheme} className="mb-2 p-2 bg-gray-300 text-gray-900 rounded-md focus:outline-none">
+            {darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          </button>
+        </div>
+        <EditableEditor content={content} onContentChange={handleContentChange} darkMode={darkMode} />
+        <ReadonlyEditor content={content} darkMode={darkMode} />
       </div>
     </div>
   );
