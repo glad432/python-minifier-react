@@ -1,60 +1,72 @@
-import './App.css';
 import React, { useState } from 'react';
+import Editor from '@monaco-editor/react';
 
 function App() {
-  const [windSpeed, setWindSpeed] = useState('');
-  const [groundSpeed, setGroundSpeed] = useState('');
-  const [trueAirspeed, setTrueAirspeed] = useState('');
-  const [windDirection, setWindDirection] = useState('');
+  const [editableContent, setEditableContent] = useState('');
+  const [readonlyContent, setReadonlyContent] = useState('');
 
-  const calculate = () => {
-    const windSpeedKnots = parseFloat(windSpeed);
-    const windDirectionDegrees = parseFloat(windDirection);
-    const trueAirspeedKnots = parseFloat(trueAirspeed);
-
-    const windComponent = windSpeedKnots * Math.cos((windDirectionDegrees / 180) * Math.PI);
-    const groundSpeedKnots = trueAirspeedKnots + windComponent;
-
-    setGroundSpeed(groundSpeedKnots.toFixed(2));
+  const handleEditableEditorChange = (value, event) => {
+    setEditableContent(value);
+    setReadonlyContent(value);
   };
 
+  const editableLinesCount = editableContent.split('\n').length;
+  const editableCharactersCount = editableContent.length;
+
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Calculator</h1>
-      <div className="mb-4">
-        <label className="block mb-2">Wind Speed (knots):</label>
-        <input
-          type="number"
-          value={windSpeed}
-          onChange={(e) => setWindSpeed(e.target.value)}
-          className="border border-gray-300 px-2 py-1 rounded"
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block mb-2">Wind Direction (degrees):</label>
-        <input
-          type="number"
-          value={windDirection}
-          onChange={(e) => setWindDirection(e.target.value)}
-          className="border border-gray-300 px-2 py-1 rounded"
-        />
-      </div>
-      <div className="mb-4">
-        <label className="block mb-2">True Airspeed (knots):</label>
-        <input
-          type="number"
-          value={trueAirspeed}
-          onChange={(e) => setTrueAirspeed(e.target.value)}
-          className="border border-gray-300 px-2 py-1 rounded"
-        />
-      </div>
-      <button onClick={calculate} className="bg-blue-500 text-white px-4 py-2 rounded">Calculate</button>
-      {groundSpeed && (
-        <div className="mt-4">
-          <label className="block mb-2">Ground Speed (knots):</label>
-          <span>{groundSpeed}</span>
-        </div>
-      )}
+    <div>
+      <Editor
+        height="300px"
+        width="auto"
+        defaultLanguage="python"
+        theme="vs-dark"
+        defaultValue=""
+        options={{
+          minimap: { enabled: false },
+          matchBrackets: 'always',
+          fontFamily: 'Source Code Pro',
+          renderValidationDecorations: 'on',
+          scrollbar: { vertical: 'visible', horizontal: 'visible' },
+          fontWeight: 'bold',
+          formatOnPaste: true,
+          semanticHighlighting: true,
+          folding: true,
+          cursorBlinking: 'smooth',
+          cursorSmoothCaretAnimation: true,
+          cursorStyle: 'line',
+        }}
+        value={editableContent}
+        onChange={handleEditableEditorChange}
+      />
+      <span>
+        Editable Editor - Lines: {editableLinesCount}, Characters: {editableCharactersCount}
+      </span>
+      <Editor
+        height="300px"
+        width="auto"
+        defaultLanguage="python"
+        theme="vs-dark"
+        defaultValue=""
+        options={{
+          readOnly: true,
+          minimap: { enabled: false },
+          matchBrackets: 'always',
+          fontFamily: 'Source Code Pro',
+          renderValidationDecorations: 'on',
+          scrollbar: { vertical: 'visible', horizontal: 'visible' },
+          fontWeight: 'bold',
+          formatOnPaste: true,
+          semanticHighlighting: true,
+          folding: true,
+          cursorBlinking: 'smooth',
+          cursorSmoothCaretAnimation: true,
+          cursorStyle: 'line',
+        }}
+        value={readonlyContent}
+      />
+      <span>
+        Readonly Editor - Lines: {editableLinesCount}, Characters: {editableCharactersCount}
+      </span>
     </div>
   );
 }
