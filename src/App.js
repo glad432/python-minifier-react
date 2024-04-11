@@ -3,12 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import EditableEditor from './Components/EditableEditor';
 import ReadonlyEditor from './Components/ReadonlyEditor';
+import TypewriterComponent from './Components/Typewriter';
 
-function App() {
+const App = () => {
   const [content, setContent] = useState('');
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem('darkMode') === 'true' ? true : false
-  );
+  const [darkMode, setDarkMode] = useState(localStorage.getItem('darkMode') === 'true' ? true : false);
 
   useEffect(() => {
     localStorage.setItem('darkMode', darkMode);
@@ -31,6 +30,7 @@ function App() {
             {darkMode ? "Light Mode" : "Dark Mode"}
           </button>
         </div>
+        <TypewriterComponent />
         <EditableEditor content={content} onContentChange={handleContentChange} darkMode={darkMode} />
         <ReadonlyEditor content={content} darkMode={darkMode} />
       </div>
