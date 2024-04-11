@@ -8,7 +8,7 @@ const EditableEditor = ({ content, onContentChange }) => {
   return (
     <div>
       <Editor
-        height="300px"
+        height="290px"
         width="auto"
         defaultLanguage="python"
         theme="vs-dark"

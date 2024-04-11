@@ -1,15 +1,14 @@
 import React from 'react';
 import Editor from '@monaco-editor/react';
 
-const ReadonlyEditor = ({ content }) => {
-  // Calculate the number of lines and characters
+const ReadonlyEditor = ({ content , id }) => {
   const linesCount = content.split('\n').length;
   const charactersCount = content.length;
 
   return (
     <div>
       <Editor
-        height="300px"
+        height="290px"
         width="auto"
         defaultLanguage="python"
         theme="vs-dark"
