@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faSun, faMoon } from '@fortawesome/free-solid-svg-icons';
 import EditableEditor from './Components/EditableEditor';
 import ReadonlyEditor from './Components/ReadonlyEditor';
 
@@ -25,6 +27,7 @@ function App() {
       <div className="max-w-[50rem] w-full p-8 rounded-lg shadow-lg">
         <div className="flex justify-end">
           <button onClick={toggleTheme} className="mb-2 p-2 bg-gray-300 text-gray-900 rounded-md focus:outline-none">
+            <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="mr-2" />
             {darkMode ? "Switch to Light Mode" : "Switch to Dark Mode"}
           </button>
         </div>
