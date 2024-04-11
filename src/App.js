@@ -20,7 +20,7 @@ function App() {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Tailwind Calculator</h1>
+      <h1 className="text-2xl font-bold mb-4">Calculator</h1>
       <div className="mb-4">
         <label className="block mb-2">Wind Speed (knots):</label>
         <input
