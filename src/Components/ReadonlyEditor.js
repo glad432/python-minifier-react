@@ -7,6 +7,9 @@ const ReadonlyEditor = ({ content, darkMode }) => {
 
   return (
     <div>
+      <span>
+        Lines: {linesCount}, Characters: {charactersCount}
+      </span>
       <Editor
         height="290px"
         width="auto"
@@ -30,9 +33,6 @@ const ReadonlyEditor = ({ content, darkMode }) => {
           cursorStyle: 'line',
         }}
       />
-      <span>
-        Lines: {linesCount}, Characters: {charactersCount}
-      </span>
     </div>
   );
 }

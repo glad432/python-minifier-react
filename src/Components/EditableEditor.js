@@ -7,6 +7,9 @@ const EditableEditor = ({ content, onContentChange, darkMode }) => {
 
   return (
     <div>
+      <span>
+        Lines: {linesCount}, Characters: {charactersCount}
+      </span>
       <Editor
         height="290px"
         width="auto"
@@ -30,9 +33,7 @@ const EditableEditor = ({ content, onContentChange, darkMode }) => {
         }}
         onChange={onContentChange}
       />
-      <span>
-        Lines: {linesCount}, Characters: {charactersCount}
-      </span>
+
     </div>
   );
 }
