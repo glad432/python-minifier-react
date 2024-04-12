@@ -19,7 +19,7 @@ const ReadonlyEditor = ({ content, darkMode }) => {
     editor.onDidChangeModelContent(updateLinesCount);
   };
 
-  const charactersCount = content.length;
+  const text_size = (content.length / 1024).toFixed(3);
 
   const DownloadPythonFile = () => {
     var dwcontent = Minifiededitor.current.getModel().getValue();
@@ -64,10 +64,10 @@ const ReadonlyEditor = ({ content, darkMode }) => {
       </h2>
       <div className="flex">
         <div className="select-none text-left mr-1 mb-2 font-bold px-4 py-2 bg-red-500 rounded text-white max-w-[fit-content]">
-          Lines: {linesCount}
+          Lines Count: {linesCount}
         </div>
         <div className="select-none text-left mb-2 font-bold px-4 py-2 bg-red-500 rounded text-white max-w-[fit-content]">
-          Characters: {charactersCount}
+          {text_size} Kb
         </div>
       </div>
       <Editor
