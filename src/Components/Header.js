@@ -23,9 +23,9 @@ export default function Header({ darkMode, toggleTheme }) {
         </span>
         <button
           onClick={toggleTheme}
-          className="inline-block ml-auto relative w-8 h-8 switch text-white"
+          className="inline-block ml-auto relative w-8 h-8 text-white hover:text-blue-700"
         >
-          <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="mr-2" />
+          <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="mr-2" size="lg" />
         </button>
         <div className="flex items-center space-x-1">
           <ul className="hidden space-x-2 md:inline-flex">

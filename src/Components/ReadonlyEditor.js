@@ -21,6 +21,22 @@ const ReadonlyEditor = ({ content, darkMode }) => {
 
   const charactersCount = content.length;
 
+  const DownloadPythonFile = () => {
+    var dwcontent = Minifiededitor.current.getModel().getValue();
+    if (dwcontent.length !== 0) {
+      var blob = new Blob([dwcontent], {
+        type: "text/x-python",
+      });
+      var dataUri = URL.createObjectURL(blob);
+      var downloadLink = document.createElement("a");
+      downloadLink.href = dataUri;
+      downloadLink.download =
+        "default.py".trim().replace(/\.[^/.]+$/, "") + "_min.py";
+      downloadLink.click();
+      URL.revokeObjectURL(dataUri);
+    }
+  };
+
   const handleCopyContent = async () => {
     if (Minifiededitor.current) {
       await navigator.clipboard.writeText(Minifiededitor.current.getValue());
@@ -37,14 +53,23 @@ const ReadonlyEditor = ({ content, darkMode }) => {
     }
   };
 
+  const handleDownload = () => {
+    DownloadPythonFile();
+  };
+
   return (
     <div>
       <h2 className="select-none relative text-2xl font-bold mt-8 mb-5 text-white bg-black block rounded py-6 pl-[15px] red_black_head">
         Minified Code
       </h2>
-      <p className="mb-2 font-bold px-4 py-2 bg-red-500 rounded text-white max-w-[fit-content]">
-        Lines: {linesCount}, Characters: {charactersCount}
-      </p>
+      <div className="flex">
+        <div className="select-none text-left mr-1 mb-2 font-bold px-4 py-2 bg-red-500 rounded text-white max-w-[fit-content]">
+          Lines: {linesCount}
+        </div>
+        <div className="select-none text-left mb-2 font-bold px-4 py-2 bg-red-500 rounded text-white max-w-[fit-content]">
+          Characters: {charactersCount}
+        </div>
+      </div>
       <Editor
         height="290px"
         width="auto"
@@ -68,12 +93,20 @@ const ReadonlyEditor = ({ content, darkMode }) => {
         }}
         onMount={handleEditorDidMount}
       />
-      <button
-        className="px-4 py-2 mt-2 font-bold cursor-pointer bg-green-500 rounded text-white hover:bg-green-600 ease-out overflow-hidden transform md:hover:scale-x-105 md:hover:scale-y-100"
-        onClick={handleCopyContent}
-      >
-        Copy
-      </button>
+      <div className="mb-2 md:mb-4 select-none">
+        <button
+          className="px-4 py-2 mt-2 mr-2 font-bold cursor-pointer bg-green-500 rounded text-white hover:bg-green-600 ease-out overflow-hidden transform md:hover:scale-x-105 md:hover:scale-y-100"
+          onClick={handleCopyContent}
+        >
+          Copy
+        </button>
+        <button
+          className="px-4 py-2 mt-2 font-bold cursor-pointer bg-blue-500 rounded text-white hover:bg-blue-600 ease-out overflow-hidden transform md:hover:scale-x-105 md:hover:scale-y-100"
+          onClick={handleDownload}
+        >
+          Download
+        </button>
+      </div>
     </div>
   );
 };
