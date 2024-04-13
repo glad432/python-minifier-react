@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
 import Header from "./Components/Header";
 import TypewriterComponent from "./Components/Typewriter";
 import EditableEditor from "./Components/EditableEditor";
