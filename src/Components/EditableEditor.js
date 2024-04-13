@@ -1,9 +1,39 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Editor from "@monaco-editor/react";
 
 const EditableEditor = ({ content, onContentChange, darkMode }) => {
-  const linesCount = content.split("\n").length;
-  const text_size = (content.length / 1024).toFixed(3);
+  const [linesCount, setLinesCount] = useState(0);
+  const [kbCount, setKbCount] = useState(0);
+
+  const editorRef = useRef(null);
+
+  const updateLinesCount = () => {
+    if (editorRef.current) {
+      const lineCount = editorRef.current.getModel().getLineCount();
+      setLinesCount(lineCount);
+    }
+  };
+
+  const updateKbCount = () => {
+    const contentLength = content.length;
+    const kbSize = (contentLength / 1024).toFixed(3);
+    setKbCount(kbSize);
+  };
+
+  const handleEditorDidMount = (editor) => {
+    editorRef.current = editor;
+    updateLinesCount();
+    updateKbCount();
+    editorRef.current.onDidChangeModelContent(() => {
+      updateLinesCount();
+      updateKbCount();
+    });
+  };
+
+  useEffect(() => {
+    updateLinesCount();
+    updateKbCount();
+  }, [content]);
 
   return (
     <div>
@@ -15,7 +45,7 @@ const EditableEditor = ({ content, onContentChange, darkMode }) => {
           Lines Count: {linesCount}
         </div>
         <div className="select-none text-left mb-2 font-bold px-4 py-2 bg-blue-500 rounded text-white max-w-[fit-content]">
-          {text_size} Kb
+          {kbCount} Kb
         </div>
       </div>
       <Editor
@@ -39,6 +69,7 @@ const EditableEditor = ({ content, onContentChange, darkMode }) => {
           cursorSmoothCaretAnimation: true,
           cursorStyle: "line",
         }}
+        onMount={handleEditorDidMount}
         onChange={onContentChange}
       />
     </div>
