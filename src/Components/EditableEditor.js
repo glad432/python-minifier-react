@@ -1,10 +1,35 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Editor from "@monaco-editor/react";
 
 const EditableEditor = ({ content, onContentChange, darkMode }) => {
+  const [deviceType, setDeviceType] = useState("");
+
+  useEffect(() => {
+    const handleResize = () => {
+      const width = window.innerWidth;
+      if (width > 1024) {
+        setDeviceType("pc");
+      } else if (width <= 1024 && width > 768) {
+        setDeviceType("tablet");
+      } else {
+        setDeviceType("mobile");
+      }
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const fontSizeMap = {
+    pc: 14,
+    tablet: 14,
+    mobile: 12,
+  };
+
   const [linesCount, setLinesCount] = useState(0);
   const [kbCount, setKbCount] = useState(0);
-
   const editorRef = useRef(null);
 
   const updateLinesCount = () => {
@@ -14,11 +39,11 @@ const EditableEditor = ({ content, onContentChange, darkMode }) => {
     }
   };
 
-  const updateKbCount = () => {
+  const updateKbCount = useCallback(() => {
     const contentLength = content.length;
     const kbSize = (contentLength / 1024).toFixed(3);
     setKbCount(kbSize);
-  };
+  }, [content]);
 
   const handleEditorDidMount = (editor) => {
     editorRef.current = editor;
@@ -33,7 +58,7 @@ const EditableEditor = ({ content, onContentChange, darkMode }) => {
   useEffect(() => {
     updateLinesCount();
     updateKbCount();
-  }, [content]);
+  }, [content, updateKbCount]);
 
   return (
     <div>
@@ -64,10 +89,11 @@ const EditableEditor = ({ content, onContentChange, darkMode }) => {
           fontWeight: "bold",
           formatOnPaste: true,
           semanticHighlighting: true,
-          folding: true,
+          folding: !deviceType.includes("mobile"),
           cursorBlinking: "smooth",
           cursorSmoothCaretAnimation: true,
           cursorStyle: "line",
+          fontSize: fontSizeMap[deviceType],
         }}
         onMount={handleEditorDidMount}
         onChange={onContentChange}

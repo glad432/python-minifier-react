@@ -4,6 +4,7 @@ import TypewriterComponent from "./Components/Typewriter";
 import EditableEditor from "./Components/EditableEditor";
 import ReadonlyEditor from "./Components/ReadonlyEditor";
 import Footer from "./Components/Footer";
+import SocialShare from "./Components/SocialShare";
 
 const App = () => {
   const [content, setContent] = useState("");
@@ -13,7 +14,9 @@ const App = () => {
 
   useEffect(() => {
     localStorage.setItem("darkMode", darkMode);
-    document.getElementById("mode").className = darkMode ? "dark" : "light";
+    const htmlTag = document.getElementsByTagName("html")[0];
+    htmlTag.classList.toggle("dark", darkMode);
+    htmlTag.classList.toggle("light", !darkMode);
   }, [darkMode]);
 
   const handleContentChange = (value, event) => {
@@ -25,7 +28,7 @@ const App = () => {
   };
 
   return (
-    <div id="mode" className={darkMode ? "dark" : "light"}>
+    <div className={darkMode ? "dark" : "light"}>
       <div className="bg-gray-100 font-sans transition-all duration-200 ease-in-out enable-motion">
         <Header darkMode={darkMode} toggleTheme={toggleTheme} />
         <div className="mx-4 md:mx-auto md:max-w-2xl lg:max-w-4xl xl:max-w-6xl p-4 md:p-8 bg-white mt-8 mb-8 rounded-lg shadow transition-all duration-100 ease-in-out">
@@ -35,8 +38,28 @@ const App = () => {
             onContentChange={handleContentChange}
             darkMode={darkMode}
           />
-          <ReadonlyEditor content={content} darkMode={darkMode} />
+          <ReadonlyEditor
+            content={content}
+            darkMode={darkMode}
+            preserveGlobals={""}
+            preserveLocals={""}
+            options={[
+              "combine_imports",
+              "remove_pass",
+              "remove_literal_statements",
+              "remove_annotations",
+              "hoist_literals",
+              "rename_locals",
+              "rename_globals",
+              "convert_posargs_to_args",
+              "preserve_shebang",
+              "remove_asserts",
+              "remove_debug",
+              "remove_explicit_return_none",
+            ]}
+          />
         </div>
+        <SocialShare />
         <Footer />
       </div>
     </div>

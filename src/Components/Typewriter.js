@@ -1,16 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useMemo } from "react";
 import Typewriter from "typewriter-effect/dist/core";
 
 const TypewriterComponent = () => {
-  const features = [
-    { text: "Efficiency", color: "#4CAF50" },
-    { text: "Safety", color: "#2196F3" },
-    { text: "Quick", color: "#FF9800" },
-    { text: "Speed", color: "#673AB7" },
-    { text: "Reliability", color: "#F44336" },
-    { text: "Protection", color: "#009688" },
-    { text: "Robust", color: "#C775C9" },
-  ];
+  const features = useMemo(
+    () => [
+      { text: "Efficiency", color: "#4CAF50" },
+      { text: "Safety", color: "#2196F3" },
+      { text: "Quick", color: "#FF9800" },
+      { text: "Speed", color: "#673AB7" },
+      { text: "Reliability", color: "#F44336" },
+      { text: "Protection", color: "#009688" },
+      { text: "Robust", color: "#C775C9" },
+    ],
+    []
+  );
 
   const shuffleArray = (array) => {
     for (let i = array.length - 1; i > 0; i--) {
@@ -41,7 +44,7 @@ const TypewriterComponent = () => {
     return () => {
       typewriter.stop();
     };
-  }, []);
+  }, [features]);
 
   return (
     <div className="rounded p-5 mb-5 border-2 text-center border-solid simp_border">
