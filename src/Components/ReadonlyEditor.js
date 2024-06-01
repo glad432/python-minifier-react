@@ -33,7 +33,7 @@ const ReadonlyEditor = ({ content, darkMode }) => {
     window.addEventListener("resize", handleResize);
 
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [content]);
 
   const fontSizeMap = {
     pc: 14,
@@ -114,7 +114,7 @@ const ReadonlyEditor = ({ content, darkMode }) => {
   };
 
   const updateKbCount = () => {
-    const contentLength = content.length;
+    const contentLength = editorRef.current.getModel().getValue().length;
     const kbSize = (contentLength / 1024).toFixed(3);
     setKbCount(kbSize);
   };
@@ -162,8 +162,7 @@ const ReadonlyEditor = ({ content, darkMode }) => {
       var dataUri = URL.createObjectURL(blob);
       var downloadLink = document.createElement("a");
       downloadLink.href = dataUri;
-      downloadLink.download =
-        "default.py".trim();
+      downloadLink.download = "default.py".trim();
       downloadLink.click();
       URL.revokeObjectURL(dataUri);
     }
