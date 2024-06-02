@@ -5,6 +5,7 @@ import EditableEditor from "./Components/EditableEditor";
 import ReadonlyEditor from "./Components/ReadonlyEditor";
 import Footer from "./Components/Footer";
 import SocialShare from "./Components/SocialShare";
+import Article from "./Components/Article";
 
 const App = () => {
   const [content, setContent] = useState("");
@@ -43,6 +44,7 @@ const App = () => {
             darkMode={darkMode}
             preserveGlobals={""}
             preserveLocals={""}
+            hasContent={content.length > 1}
             options={[
               "combine_imports",
               "remove_pass",
@@ -60,6 +62,7 @@ const App = () => {
           />
         </div>
         <SocialShare />
+        <Article />
         <Footer />
       </div>
     </div>

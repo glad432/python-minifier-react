@@ -55,7 +55,8 @@ const TypewriterComponent = () => {
       </h1>
       <div className="mb-2 md:mb-4">
         <div className="mb-3 text-gray-700 text-[13px] lg:text-[15px] font-['Source_Code_Pro']">
-          Optimizing Python minifier for <span id="typewriter"></span>
+          Optimizing Python minifier for{" "}
+          <span id="typewriter" className="font-bold"></span>
         </div>
       </div>
     </div>

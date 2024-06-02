@@ -4,9 +4,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDownLeftAndUpRightToCenter,
   faArrowUpRightFromSquare,
+  faClipboardList,
+  faDownload,
 } from "@fortawesome/free-solid-svg-icons";
 
-const ReadonlyEditor = ({ content, darkMode }) => {
+const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
   const [linesCount, setLinesCount] = useState(0);
   const [kbCount, setKbCount] = useState(0);
   const [minifiedCode, setMinifiedCode] = useState("");
@@ -16,6 +18,8 @@ const ReadonlyEditor = ({ content, darkMode }) => {
   const [contentHeight, setContentHeight] = useState(null);
   const editorRef = useRef(null);
   const [deviceType, setDeviceType] = useState("");
+  const [copied, setCopied] = useState(false);
+  const [isMinifying, setIsMinifying] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -130,27 +134,32 @@ const ReadonlyEditor = ({ content, darkMode }) => {
   };
 
   const minifyCode = async () => {
-    setError("");
-    const selectedOptionsQuery = buildQuery();
-    const requestUrl = "https://python-minify.vercel.app/minify";
-    try {
-      const response = await fetch(requestUrl, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: `inputCode=${encodeURIComponent(
-          content
-        )}&${selectedOptionsQuery}`,
-      });
-      const data = await response.json();
-      if (data.error) {
-        setError(data.error);
-      } else {
-        setMinifiedCode(data.minified_code);
+    if (hasContent && !isMinifying) {
+      setIsMinifying(true);
+      setError("");
+      const selectedOptionsQuery = buildQuery();
+      const requestUrl = "https://python-minify.vercel.app/minify";
+      try {
+        const response = await fetch(requestUrl, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `inputCode=${encodeURIComponent(
+            content
+          )}&${selectedOptionsQuery}`,
+        });
+        const data = await response.json();
+        if (data.error) {
+          setError(data.error);
+        } else {
+          setMinifiedCode(data.minified_code);
+        }
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsMinifying(false);
       }
-    } catch (error) {
-      setError(error.message);
     }
   };
   const DownloadPythonFile = () => {
@@ -169,7 +178,7 @@ const ReadonlyEditor = ({ content, darkMode }) => {
   };
 
   const handleCopyContent = async () => {
-    if (editorRef.current) {
+    if (editorRef.current.getModel().getValue() !== "") {
       await navigator.clipboard.writeText(editorRef.current.getValue());
       const lastLineNumber = editorRef.current.getModel().getLineCount();
       editorRef.current.revealLine(lastLineNumber);
@@ -181,6 +190,8 @@ const ReadonlyEditor = ({ content, darkMode }) => {
           .getModel()
           .getLineMaxColumn(lastLineNumber),
       });
+      setCopied(true);
+      setTimeout(() => setCopied(false), 3000);
     }
   };
 
@@ -253,15 +264,17 @@ const ReadonlyEditor = ({ content, darkMode }) => {
           <div className="select-none mt-4 space-x-2 text-center">
             <button
               onClick={checkAll}
+              id="selectall"
               className="text-2xl font-bold bg-green-500 text-white py-1 px-2 rounded hover:bg-green-600 ease-out overflow-hidden transform md:hover:scale-x-105 md:hover:scale-y-100"
             >
-              Check All
+              Select All
             </button>
             <button
               onClick={uncheckAll}
+              id="Unselectall"
               className="text-2xl font-bold bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 ease-out overflow-hidden transform md:hover:scale-x-105 md:hover:scale-y-100"
             >
-              Uncheck All
+              Unselect All
             </button>
           </div>
         </div>
@@ -323,16 +336,19 @@ const ReadonlyEditor = ({ content, darkMode }) => {
       />
       <div className="mb-2 md:mb-4 select-none">
         <button
-          className="px-4 py-2 mt-2 mr-2 font-bold cursor-pointer bg-green-500 rounded text-white hover:bg-green-600 ease-out overflow-hidden transform md:hover:scale-x-105 md:hover:scale-y-100"
-          onClick={handleCopyContent}
+          className="px-4 py-2 mt-2 font-bold cursor-pointer bg-red-500 rounded text-white hover:bg-red-600 ease-out overflow-hidden transform md:hover:scale-x-105 md:hover:scale-y-100 mr-1"
+          onClick={handleDownload}
+          id="dw"
         >
-          Copy
+          Download <FontAwesomeIcon icon={faDownload} />
         </button>
         <button
-          className="px-4 py-2 mt-2 font-bold cursor-pointer bg-blue-500 rounded text-white hover:bg-blue-600 ease-out overflow-hidden transform md:hover:scale-x-105 md:hover:scale-y-100"
-          onClick={handleDownload}
+          className="px-4 py-2 mt-2 font-bold cursor-pointer bg-green-500 rounded text-white hover:bg-green-600 ease-out overflow-hidden transform md:hover:scale-x-105 md:hover:scale-y-100"
+          onClick={handleCopyContent}
+          id="copy"
         >
-          Download
+          {copied ? "Copied" : "Copy"}{" "}
+          <FontAwesomeIcon icon={faClipboardList} />
         </button>
       </div>
     </div>
