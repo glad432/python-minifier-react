@@ -21,6 +21,7 @@ const Footer = () => {
           <a
             href="https://gladw-in.github.io/"
             target="_blank"
+            rel="noreferrer"
             className="mr-9 text-neutral-200 hover:text-blue-700"
           >
             <FontAwesomeIcon icon={faGlobe} size="xl" />
@@ -28,6 +29,7 @@ const Footer = () => {
           <a
             href="https://www.linkedin.com/in/glad432/"
             target="_blank"
+            rel="noreferrer"
             className="mr-9 text-neutral-200 hover:text-blue-700"
           >
             <FontAwesomeIcon icon={faLinkedin} size="xl" />
@@ -35,6 +37,7 @@ const Footer = () => {
           <a
             href="https://github.com/gladw-in"
             target="_blank"
+            rel="noreferrer"
             className="text-neutral-200 hover:text-blue-700"
           >
             <FontAwesomeIcon icon={faGithub} size="xl" />
