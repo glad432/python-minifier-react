@@ -31,7 +31,7 @@ export default function Header({ darkMode, toggleTheme }) {
           <ul className="hidden space-x-2 md:inline-flex">
             <li>
               <a
-                href="/"
+                href="https://github.com/gladw-in"
                 target="_blank"
                 rel="noreferrer"
                 className="px-4 py-2 font-semibold text-white rounded hover:text-blue-700"
