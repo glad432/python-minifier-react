@@ -137,18 +137,17 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
     if (hasContent && !isMinifying) {
       setIsMinifying(true);
       setError("");
-      const selectedOptionsQuery = buildQuery();
-      const requestUrl = "https://python-minify.vercel.app/minify";
       try {
-        const response = await fetch(requestUrl, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-          body: `inputCode=${encodeURIComponent(
-            content
-          )}&${selectedOptionsQuery}`,
-        });
+        const response = await fetch(
+          `https://python-minify.vercel.app/minify?${buildQuery()}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "text/plain",
+            },
+            body: content,
+          }
+        );
         const data = await response.json();
         if (data.error) {
           setError(data.error);
