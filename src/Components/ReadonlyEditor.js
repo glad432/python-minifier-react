@@ -98,17 +98,26 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
   };
 
   const buildQuery = () => {
-    let query = options
-      .map((option) => `${option}=${document.getElementById(option).checked}`)
-      .join("&");
-    if (preserveGlobals) {
-      query += `&preserve_globals=${encodeURIComponent(preserveGlobals)}`;
+    var query = options.map(option => {
+      var checkbox = document.getElementById(option);
+      if (checkbox && checkbox.checked) {
+        return `${option}=true`;
+      } else {
+        return `${option}=false`;
+      }
+    }).join('&');
+    const preserveGlobalsInput = document.getElementById('preserveGlobals');
+    const preserveGlobals = preserveGlobalsInput ? preserveGlobalsInput.value.split(',').map(str => str.trim()) : [];
+    if (preserveGlobals.length > 0) {
+      query += '&preserve_globals=' + encodeURIComponent(JSON.stringify(preserveGlobals));
     }
-    if (preserveLocals) {
-      query += `&preserve_locals=${encodeURIComponent(preserveLocals)}`;
+    const preserveLocalsInput = document.getElementById('preserveLocals');
+    const preserveLocals = preserveLocalsInput ? preserveLocalsInput.value.split(',').map(str => str.trim()) : [];
+    if (preserveLocals.length > 0) {
+      query += '&preserve_locals=' + encodeURIComponent(JSON.stringify(preserveLocals));
     }
     return query;
-  };
+  }
 
   const updateLinesCount = () => {
     if (editorRef.current) {
@@ -139,7 +148,7 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
       setError("");
       try {
         const response = await fetch(
-          `https://python-minify.vercel.app/minify?${buildQuery()}`,
+          `https://python-minifier-flask.vercel.app/minify?${buildQuery()}`,
           {
             method: "POST",
             headers: {
