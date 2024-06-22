@@ -30,7 +30,7 @@ const App = () => {
 
   return (
     <div className={darkMode ? "dark" : "light"}>
-      <div className="bg-gray-100 font-sans transition-all duration-200 ease-in-out enable-motion">
+      <div className="bg-gray-100 select-none font-sans transition-all duration-200 ease-in-out enable-motion">
         <Header darkMode={darkMode} toggleTheme={toggleTheme} />
         <div className="mx-4 md:mx-auto md:max-w-2xl lg:max-w-4xl xl:max-w-6xl p-4 md:p-8 bg-white mt-8 mb-8 rounded-lg shadow transition-all duration-100 ease-in-out">
           <TypewriterComponent />

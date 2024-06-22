@@ -66,22 +66,27 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
         : `${document.querySelector(".content-ll").scrollHeight}px`
     );
   };
+  const transformOption = (option) => {
+    let words = option.split("_");
+    let transformed = words
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(" ");
+
+    return transformed;
+  };
   const createOptionsCheckboxes = () => {
     return options.map((option) => (
-      <div key={option} className="mb-2">
-        <input
-          type="checkbox"
-          id={option}
-          value={option}
-          className="cursor-pointer w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
-        />
-        <label
-          htmlFor={option}
-          className="cursor-pointer ml-2 text-neutral-500 text-lg font-medium"
-        >
-          {option}
-        </label>
-      </div>
+      <label
+        key={option}
+        htmlFor={option}
+        className="flex items-center mb-5 cursor-pointer pl-2"
+      >
+        <input type="checkbox" id={option} className="sr-only peer" />
+        <div className="absolute w-9 h-5 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-green-600"></div>
+        <span className="cursor-pointer ml-2 text-neutral-500 text-lg font-medium pl-10">
+          {transformOption(option)}
+        </span>
+      </label>
     ));
   };
 
@@ -98,26 +103,36 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
   };
 
   const buildQuery = () => {
-    var query = options.map(option => {
-      var checkbox = document.getElementById(option);
-      if (checkbox && checkbox.checked) {
-        return `${option}=true`;
-      } else {
-        return `${option}=false`;
-      }
-    }).join('&');
-    const preserveGlobalsInput = document.getElementById('preserveGlobals');
-    const preserveGlobals = preserveGlobalsInput ? preserveGlobalsInput.value.split(',').map(str => str.trim()) : [];
+    var query = options
+      .map((option) => {
+        var checkbox = document.getElementById(option);
+        if (checkbox && checkbox.checked) {
+          return `${option}=true`;
+        } else {
+          return `${option}=false`;
+        }
+      })
+      .join("&");
+    const preserveGlobalsInput = document.getElementById("preserveGlobals");
+    const preserveGlobals = preserveGlobalsInput
+      ? preserveGlobalsInput.value.split(",").map((str) => str.trim())
+      : [];
     if (preserveGlobals.length > 0) {
-      query += '&preserve_globals=' + encodeURIComponent(JSON.stringify(preserveGlobals));
+      query += `&preserve_globals=${encodeURIComponent(
+        JSON.stringify(preserveGlobals)
+      )}`;
     }
-    const preserveLocalsInput = document.getElementById('preserveLocals');
-    const preserveLocals = preserveLocalsInput ? preserveLocalsInput.value.split(',').map(str => str.trim()) : [];
+    const preserveLocalsInput = document.getElementById("preserveLocals");
+    const preserveLocals = preserveLocalsInput
+      ? preserveLocalsInput.value.split(",").map((str) => str.trim())
+      : [];
     if (preserveLocals.length > 0) {
-      query += '&preserve_locals=' + encodeURIComponent(JSON.stringify(preserveLocals));
+      query += `&preserve_locals=${encodeURIComponent(
+        JSON.stringify(preserveLocals)
+      )}`;
     }
     return query;
-  }
+  };
 
   const updateLinesCount = () => {
     if (editorRef.current) {
@@ -210,21 +225,18 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
   return (
     <div>
       <div className="text-left w-[500px] my-10 p-4 rounded border-t-[5px] border-solid border-blue-500 blue_big_box md:mx-auto md:p-8">
-        <div id="toggleContent1" className="">
-          <p
-            className="cursor-pointer select-none underline underline-offset-3 decoration-8 decoration-blue-400 decoration-blue-600 mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl"
-            onClick={toggleContent}
-          >
-            Options:
-          </p>
-        </div>
+        <p
+          id="toggleContent1"
+          className="cursor-pointer underline underline-offset-3 decoration-8 decoration-blue-400 decoration-blue-600 mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl"
+          onClick={toggleContent}
+        >
+          Options:
+        </p>
         <div
-          className="select-none overflow-hidden content-ll [transition:max-height_0.6s_ease-in-out] pt-4"
+          className="relative overflow-hidden content-ll [transition:max-height_0.6s_ease-in-out] pt-4"
           style={{ maxHeight: contentHeight }}
         >
-          <div id="optionsContainer" className="mb-4">
-            {createOptionsCheckboxes()}
-          </div>
+          <div id="optionsContainer">{createOptionsCheckboxes()}</div>
           <div className="mb-4">
             <label
               htmlFor="preserveGlobals"
@@ -269,7 +281,7 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
             />
           </a>
 
-          <div className="select-none mt-4 space-x-2 text-center">
+          <div className="  mt-4 space-x-2 text-center">
             <button
               onClick={checkAll}
               id="selectall"
@@ -287,7 +299,7 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
           </div>
         </div>
       </div>
-      <div className="select-none mt-10 mb-2 md:mb-4 text-center">
+      <div className="  mt-10 mb-2 md:mb-4 text-center">
         <span
           id="minify"
           className="relative rounded cursor-pointer pt-5 p-4 overflow-hidden group bg-blue-500 relative hover:bg-gradient-to-r hover:from-blue-500 hover:to-blue-400 text-white hover:ring-2 hover:ring-offset-2 hover:ring-blue-400 transition-all ease-out duration-300"
@@ -300,19 +312,19 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
           </span>
         </span>
       </div>
-      <h2 className="select-none relative text-2xl font-bold mt-8 mb-5 text-white bg-black block rounded py-6 pl-[15px] red_black_head">
+      <h2 className="  relative text-2xl font-bold mt-8 mb-5 text-white bg-black block rounded py-6 pl-[15px] red_black_head">
         Minified Code
       </h2>
       {error ? (
-        <div className="select-none text-left mb-2 font-bold px-4 py-2 bg-red-500 rounded text-white max-w-[fit-content]">
+        <div className="  text-left mb-2 font-bold px-4 py-2 bg-red-500 rounded text-white max-w-[fit-content]">
           Error: {error}
         </div>
       ) : (
         <div className="flex">
-          <div className="select-none text-left mr-1 mb-2 font-bold px-4 py-2 bg-red-500 rounded text-white max-w-[fit-content]">
+          <div className="  text-left mr-1 mb-2 font-bold px-4 py-2 bg-red-500 rounded text-white max-w-[fit-content]">
             Lines: {linesCount}
           </div>
-          <div className="select-none text-left mb-2 font-bold px-4 py-2 bg-red-500 rounded text-white max-w-[fit-content]">
+          <div className="  text-left mb-2 font-bold px-4 py-2 bg-red-500 rounded text-white max-w-[fit-content]">
             {kbCount} Kb
           </div>
         </div>
@@ -342,7 +354,7 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
         }}
         onMount={handleEditorDidMount}
       />
-      <div className="mb-2 md:mb-4 select-none">
+      <div className="mb-2 md:mb-4  ">
         <button
           className="px-4 py-2 mt-2 font-bold cursor-pointer bg-red-500 rounded text-white hover:bg-red-600 ease-out overflow-hidden transform md:hover:scale-x-105 md:hover:scale-y-100 mr-1"
           onClick={handleDownload}

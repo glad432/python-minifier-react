@@ -62,14 +62,14 @@ const EditableEditor = ({ content, onContentChange, darkMode }) => {
 
   return (
     <div>
-      <h2 className="select-none relative text-2xl font-bold mt-8 mb-5 text-white bg-black block rounded py-6 pl-[15px] blue_black_head">
+      <h2 className="relative text-2xl font-bold mt-8 mb-5 text-white bg-black block rounded py-6 pl-[15px] blue_black_head">
         Original Code
       </h2>
       <div className="flex">
-        <div className="select-none text-left mr-1 mb-2 font-bold px-4 py-2 bg-blue-500 rounded text-white max-w-[fit-content]">
+        <div className="text-left mr-1 mb-2 font-bold px-4 py-2 bg-blue-500 rounded text-white max-w-[fit-content]">
           Lines: {linesCount}
         </div>
-        <div className="select-none text-left mb-2 font-bold px-4 py-2 bg-blue-500 rounded text-white max-w-[fit-content]">
+        <div className="text-left mb-2 font-bold px-4 py-2 bg-blue-500 rounded text-white max-w-[fit-content]">
           {kbCount} Kb
         </div>
       </div>

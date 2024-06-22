@@ -1,19 +1,20 @@
 import React, { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSun, faMoon } from "@fortawesome/free-solid-svg-icons";
+import Image from "../Images/logo.webp";
 
 export default function Header({ darkMode, toggleTheme }) {
   const [open, setOpen] = useState(false);
 
   return (
     <header
-      className={`select-none top-0 z-30 w-full px-2 py-4 bg-black shadow-xl shadow-black-600/20 sm:px-4`}
+      className={`top-0 z-30 w-full px-2 py-4 bg-black shadow-xl shadow-black-600/20 sm:px-4`}
     >
       <div className="flex items-center justify-between mx-auto max-w-7xl">
         <span className="pl-4 text-2xl font-extrabold text-white">
           <div>
             <img
-              src="https://glad432.github.io/img/logo.webp"
+              src={Image}
               height="44"
               width="196"
               alt="Glad432"
@@ -25,7 +26,11 @@ export default function Header({ darkMode, toggleTheme }) {
           onClick={toggleTheme}
           className="inline-block ml-auto relative w-8 h-8 text-white hover:text-blue-700"
         >
-          <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="mr-2" size="lg" />
+          <FontAwesomeIcon
+            icon={darkMode ? faSun : faMoon}
+            className="mr-2"
+            size="lg"
+          />
         </button>
         <div className="flex items-center space-x-1">
           <ul className="hidden space-x-2 md:inline-flex">

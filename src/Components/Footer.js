@@ -15,7 +15,7 @@ const Footer = () => {
   }, []);
 
   return (
-    <footer className="select-none bg-black text-xs md:text-sm bg-black text-center text-white">
+    <footer className="bg-black text-xs md:text-sm bg-black text-center text-white">
       <div className="pt-9">
         <div className="mb-9 flex justify-center">
           <a
@@ -45,7 +45,7 @@ const Footer = () => {
         </div>
       </div>
       <div className="bg-neutral-300 p-4 text-center bg-neutral-700 text-neutral-200">
-        © GLAD432{" "}
+        &copy; GLAD432{" "}
         <span id="year" className="text-neutral-400">
           {currentYear}
         </span>
