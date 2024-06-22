@@ -15,6 +15,7 @@ function Article() {
   const [isContentVisible, setContentVisible] = useState(false);
 
   useEffect(() => {
+    console.log("blogJson.article:", blogJson.article);
     setArticleData(blogJson.article);
   }, []);
 
@@ -28,7 +29,7 @@ function Article() {
     let content = (
       <div
         id="display-content"
-        className={`hidden overflow-y-auto max-h-[100%]`}
+        className='overflow-y-auto max-h-[100%]'
       >
         <h1 className="sm:text-xl lg:text-3xl text-gray-600 text-left font-bold mb-4">
           <FontAwesomeIcon icon={faCircleInfo} className="text-blue-500 pr-2" />
