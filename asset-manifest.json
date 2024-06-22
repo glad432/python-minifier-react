@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/react-page/static/css/main.1e1ba860.css",
-    "main.js": "/react-page/static/js/main.2f47a5b1.js",
+    "main.js": "/react-page/static/js/main.ef608ed6.js",
     "static/js/206.a508c8b5.chunk.js": "/react-page/static/js/206.a508c8b5.chunk.js",
     "static/media/logo.webp": "/react-page/static/media/logo.ec5b299511250e1c5dfe.webp",
     "index.html": "/react-page/index.html"
   },
   "entrypoints": [
     "static/css/main.1e1ba860.css",
-    "static/js/main.2f47a5b1.js"
+    "static/js/main.ef608ed6.js"
   ]
 }
