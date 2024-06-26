@@ -248,7 +248,7 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
               type="text"
               id="preserveGlobals"
               className="cursor-text border border-gray-300 text-sm rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              value={preserveGlobals || "handler"}
+              value={preserveGlobals}
               placeholder="Enter preserve globals..."
               onChange={(e) => setPreserveGlobals(e.target.value)}
             />
