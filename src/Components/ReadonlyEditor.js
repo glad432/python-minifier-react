@@ -96,10 +96,12 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
     });
   };
 
-  const uncheckAll = () => {
+  const resetOptions = () => {
     options.forEach((option) => {
       document.getElementById(option).checked = false;
     });
+    document.getElementById("preserveLocals").value = "";
+    document.getElementById("preserveGlobals").value = "";
   };
 
   const buildQuery = () => {
@@ -237,36 +239,43 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
           style={{ maxHeight: contentHeight }}
         >
           <div id="optionsContainer">{createOptionsCheckboxes()}</div>
-          <div className="mb-4">
-            <label
-              htmlFor="preserveGlobals"
-              className="cursor-pointer block mb-2 text-lg text-neutral-500 font-medium"
-            >
-              Preserve Globals:
-            </label>
-            <input
-              type="text"
-              id="preserveGlobals"
-              className="cursor-text border border-gray-300 text-sm rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              value={preserveGlobals}
-              placeholder="Enter preserve globals..."
-              onChange={(e) => setPreserveGlobals(e.target.value)}
-            />
-            <label
-              htmlFor="preserveLocals"
-              className="cursor-pointer block mb-2 text-lg text-neutral-500 font-medium"
-            >
-              Preserve Locals:
-            </label>
+          <div className="relative mb-3">
             <input
               type="text"
               id="preserveLocals"
-              className="cursor-text border border-gray-300 text-sm rounded-lg focus:outline-none focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              spellCheck="false"
               value={preserveLocals}
-              placeholder="Enter preserve locals..."
               onChange={(e) => setPreserveLocals(e.target.value)}
             />
+            <label
+              htmlFor="preserveLocals"
+              className="absolute cursor-text font-bold text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+            >
+              Preserved Locals:
+            </label>
           </div>
+          <div className="relative mb-2">
+            <input
+              type="text"
+              id="preserveGlobals"
+              className="block rounded-lg px-2.5 pb-2.5 pt-5 w-full text-sm text-gray-900 bg-gray-50 border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+              placeholder=" "
+              spellCheck="false"
+              value={preserveGlobals}
+              onChange={(e) => setPreserveGlobals(e.target.value)}
+            />
+            <label
+              htmlFor="preserveGlobals"
+              className="absolute cursor-text font-bold text-gray-500 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-2.5 peer-focus:text-blue-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto"
+            >
+              Preserved Globals:
+            </label>
+          </div>
+          <p className="text-sm mb-2 text-neutral-500">
+            <span className="text-red-500 font-bold">*</span> Delimiter is comma
+          </p>
           <a
             className="text-blue-500 text-base hover:underline hover:text-blue-600"
             href="https://dflook.github.io/python-minifier/transforms"
@@ -290,11 +299,11 @@ const ReadonlyEditor = ({ content, darkMode, hasContent }) => {
               Select All
             </button>
             <button
-              onClick={uncheckAll}
+              onClick={resetOptions}
               id="Unselectall"
               className="text-2xl font-bold bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 ease-out overflow-hidden transform md:hover:scale-x-105 md:hover:scale-y-100"
             >
-              Unselect All
+              Reset
             </button>
           </div>
         </div>
